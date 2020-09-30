@@ -20,14 +20,29 @@
  5. * Написать собственные классы исключений для каждого из случаев
  */
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class lesson2 {
 
-    public static void main(String[] args) throws MyException {
+    public static void main(String[] args) throws MyException, IOException {
         System.out.println(SumArray.SumArrayEqual2(changeStringToArr("10 3 1 2 2 3 2 2 5 6 7 1 300 3 1 0")));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder stringBuilder = new StringBuilder();
+        System.out.println("Введите через Enter 16 цифр и получите сумму этих цифр деленную на два.");
+        for (int i = 0; i < 16; i++) {
+            stringBuilder.append(reader.readLine()).append(" ");
+        }
+        String s = stringBuilder.toString();
+        System.out.println(SumArray.SumArrayEqual2(changeStringToArr(s)));
     }
 
-    static String [][] changeStringToArr(String s) {
+    static String [][] changeStringToArr(String s) throws MyException {
         String[] arr = s.split(" ");
+        if (arr.length != 16) {
+            throw new MyException(s);
+        }
         String[][] newArr = new String[4][4];
         for (int i = 0; i < newArr.length * newArr.length; i++) {
         newArr[i / newArr.length][i % newArr.length] = arr[i];
@@ -64,7 +79,7 @@ public class lesson2 {
     public static class MyException extends Exception {
         public MyException(String s) {
             super();
-            System.err.println("Неверный размер массива!!! 16 чисел.");
+            System.err.println("Неверный размер массива!!! Требуемая длина строки 16 чисел, через пробел.");
         }
     }
 }
